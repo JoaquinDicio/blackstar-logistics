@@ -1,0 +1,107 @@
+---
+import { Menu, X } from "lucide-astro";
+
+interface Props {
+  content: {
+    about: string;
+    services: string;
+    work: string;
+    contact: string;
+    quote: string;
+  };
+}
+
+const { content } = Astro.props;
+---
+
+<nav class="absolute top-0 left-0 z-100 w-full pt-8">
+  <div
+    class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8"
+  >
+    <!-- Logo -->
+    <a href="/" aria-label="Blackstar Logistics">
+      <span class="text-xl font-bold tracking-wide text-white">
+        BLACKSTAR
+      </span>
+    </a>
+
+    <!-- Desktop navigation -->
+    <div
+      class="hidden font-medium text-(--blue) items-center gap-8 md:flex bg-white/80 rounded-full px-12 py-4.5"
+    >
+      <a href="#about" class="text-sm font-medium">
+        {content.about}
+      </a>
+
+      <a href="#services" class="text-sm font-medium">
+        {content.services}
+      </a>
+
+      <a href="#work" class="text-sm font-medium">
+        {content.work}
+      </a>
+
+      <a href="#contact" class="text-sm font-medium">
+        {content.contact}
+      </a>
+    </div>
+
+    <a
+      href="#contact"
+      class="rounded-full px-10 py-4 text-sm font-medium text-white transition-colors bg-(--blue) hover:bg-(--blue-dark)"
+    >
+      {content.quote}
+    </a>
+
+    <!-- Mobile menu button -->
+    <button
+      id="menu-button"
+      type="button"
+      aria-label="Abrir menú"
+      aria-expanded="false"
+      class="text-white md:hidden"
+    >
+      <Menu size={28} strokeWidth={1.8} />
+    </button>
+  </div>
+
+  <!-- Mobile navigation -->
+  <div
+    id="mobile-menu"
+    class="hidden border-t border-white/10 bg-black/95 px-6 py-6 md:hidden"
+  >
+    <div class="flex flex-col gap-5">
+      <a href="#about" class="text-white/80 hover:text-white">
+        {content.about}
+      </a>
+
+      <a href="#services" class="text-white/80 hover:text-white">
+        {content.services}
+      </a>
+
+      <a href="#contact" class="text-white/80 hover:text-white">
+        {content.contact}
+      </a>
+
+      <a
+        href="#contact"
+        class="w-fit rounded-full border border-white/30 px-5 py-2.5 text-white"
+      >
+        {content.quote}
+      </a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  import { Menu, X } from "lucide-astro";
+
+  const button = document.querySelector("#menu-button");
+  const menu = document.querySelector("#mobile-menu");
+
+  button?.addEventListener("click", () => {
+    const isOpen = menu?.classList.toggle("hidden");
+
+    button?.setAttribute("aria-expanded", String(!isOpen));
+  });
+</script>
