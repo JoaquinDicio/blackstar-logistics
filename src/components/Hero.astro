@@ -1,6 +1,8 @@
 ---
 import { Mail, PackageCheck } from "lucide-astro";
 import heroBg from "../assets/hero-bg.png";
+import RoundedButton from "../components/RoundedButton.astro";
+
 interface Props {
   content: {
     description: string;
@@ -12,8 +14,10 @@ interface Props {
 const { content } = Astro.props;
 ---
 
-<section class="relative overflow-hidden bg-top-center bg-no-repeat bg-cover"  style={`background-image: url(${heroBg.src})`}>
-  
+<section
+  class="relative overflow-hidden bg-top-center bg-no-repeat bg-cover bg-fixed"
+  style={`background-image: url(${heroBg.src})`}
+>
   <!-- Hero content -->
   <div
     class="relative min-h-screen bg-black/60 z-10 flex h-full flex-col items-center justify-center px-6 pb-10 text-center"
@@ -31,25 +35,19 @@ const { content } = Astro.props;
     </p>
 
     <div class="mt-5 flex items-center gap-3">
-      <a
-        href="#contact"
-        class="inline-flex items-center gap-1.5 rounded-full bg-(--blue) px-4 py-2.5 text-[14px] font-bold text-white transition-colors hover:bg-(--blue-dark)"
-      >
-      <Mail size={16} />
-        {content.contact}
-      </a>
-
-      <a
-        href="#services"
-        class="inline-flex items-center gap-1.5 rounded-full bg-white text-[14px] font-bold px-4 py-2.5 text-(--blue) transition-colors hover:bg-gray-100"
-      >
-      <PackageCheck size={16} />
-      {content.services}
-      </a>
+      <RoundedButton href="#contact" text={content.services}>
+        <Mail size={16} />
+        Contactar
+      </RoundedButton>
+      <RoundedButton className="bg-white text-(--blue)! hover:bg-slate-100" href="#services" text={content.services}>
+        <PackageCheck size={16} />
+        Nuestros servicios
+      </RoundedButton>
     </div>
   </div>
 
-<div
-  class="absolute -bottom-[15%] left-1/2 z-20 h-[25%] w-[120%] -translate-x-1/2 rounded-[50%_50%_0_0] bg-[#f8fafc]"
-></div>
+  <div
+    class="absolute bottom-[-15%] left-1/2 z-20 h-[25%] w-[120%] -translate-x-1/2 rounded-[50%_50%_0_0] bg-[#F7F9F9]"
+  >
+  </div>
 </section>

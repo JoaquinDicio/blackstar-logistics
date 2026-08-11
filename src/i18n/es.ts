@@ -1,3 +1,5 @@
+import img_import from "../assets/imports.png";
+
 const es = {
   meta: {
     title: "Blackstar Logistics | Logística Internacional",
@@ -27,6 +29,7 @@ const es = {
 
     items: [
       {
+        image: img_import.src,
         title: "Importaciones",
         description:
           "Importamos productos de cualquier parte del mundo hacia Argentina, sin importar volumen ni complejidad.",
