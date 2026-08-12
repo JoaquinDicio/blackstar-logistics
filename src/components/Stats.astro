@@ -1,5 +1,7 @@
 ---
-import Logo from "../assets/logo.png";
+import logo from "../assets/logo.png";
+import statsBg from "../assets/stats_background.png";
+
 interface Props {
   content: Stat[];
 }
@@ -12,14 +14,17 @@ type Stat = {
 const { content }: Props = Astro.props;
 ---
 
-<section class="flex items-center">
+<section
+  class="flex items-center bg-center bg-no-repeat bg-cover"
+  style={`background-image: url(${statsBg.src})`}
+>
   <div
-    class="mx-auto bg-(--blue) px-6 py-5 w-full h-full min-h-55 flex items-center justify-center"
+    class="mx-auto bg-(--blue)/85 px-6 py-5 w-full h-full min-h-55 flex items-center justify-center"
   >
     <div class="flex items-center max-w-6xl">
       <!-- Logo -->
       <div class="hidden shrink-0 pr-8 lg:block">
-        <img src={Logo.src} alt="Logo" class="" />
+        <img src={logo.src} alt="Logo" class="" />
       </div>
 
       <!-- Stats -->

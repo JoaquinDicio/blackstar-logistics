@@ -39,7 +39,11 @@ const { content } = Astro.props;
         <Mail size={16} />
         Contactar
       </RoundedButton>
-      <RoundedButton className="bg-white text-(--blue)! hover:bg-slate-100" href="#services" text={content.services}>
+      <RoundedButton
+        className="bg-white text-(--blue)! hover:bg-slate-100"
+        href="#services"
+        text={content.services}
+      >
         <PackageCheck size={16} />
         Nuestros servicios
       </RoundedButton>

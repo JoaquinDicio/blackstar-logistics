@@ -1,0 +1,61 @@
+---
+interface Props {
+  content: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    steps: Step[];
+  };
+}
+
+interface Step {
+  number: string;
+  title: string;
+  description: string;
+}
+
+const { content } = Astro.props;
+import Title from "./Title.astro";
+import marina from "../assets/marina.png";
+---
+
+<section id="about" class="px-10 pt-20 pb-32">
+  <Title title={content.eyebrow} className="text-(--blue)!" />
+
+  <div class="pt-14 flex items-center justify-center gap-12 max-w-250 mx-auto">
+    <div>
+      <img
+        src={marina.src}
+        alt="Marina"
+        class="mx-auto w-full max-w-65 object-cover"
+      />
+    </div>
+    <div class="w-fit">
+      <h3 class="font-bold text-(--blue)">
+        {content.title}
+      </h3>
+
+      <p class="mt-2 mb-10 text-(--text-dark) max-w-118">
+        {content.description}
+      </p>
+
+      {
+        content.steps.map((step, index) => (
+          <div class="flex max-w-120 items-center gap-5 rounded-[20px] bg-white my-2 px-8 py-5 shadow-[0_5px_20px_rgba(0,0,0,0.08)]">
+            <p>
+              <span class="font-bold text-(--blue) text-4xl">
+                {step.number}
+              </span>
+            </p>
+            <div>
+              <h4 class="font-bold text-[16px] text-(--blue)">{step.title}</h4>
+              <p class="text-[14px] leading-tight text-(--text-dark)">
+                {step.description}
+              </p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

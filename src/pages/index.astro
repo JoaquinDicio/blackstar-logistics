@@ -1,34 +1,30 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import es  from "../i18n/es";
+import es from "../i18n/es";
 import NavBar from "../components/Navbar.astro";
 import Hero from "../components/Hero.astro";
 import Services from "../components/Services.astro";
 import BuildTrust from "../components/BuildTrust.astro";
 import About from "../components/About.astro";
 import Stats from "../components/Stats.astro";
+import Work from "../components/Work.astro";
 ---
 
-<Layout
-  lang="es"
-  title={es.meta.title}
-  description={es.meta.description}
->
+<Layout lang="es" title={es.meta.title} description={es.meta.description}>
   <main class="bg-[#F7F9F9] min-h-screen">
-
     <NavBar content={es.nav} />
-  
+
     <Hero content={es.hero} />
-    
-    <Services content={es.services}/>
 
-    <BuildTrust content={es.build_trust}/>
+    <Services content={es.services} />
 
-    <About content={es.about}/>
+    <BuildTrust content={es.build_trust} />
 
-    <Stats content={es.about.stats}/>
-    <!-- Cómo trabajamos -->
+    <About content={es.about} />
 
+    <Stats content={es.about.stats} />
+
+    <Work content={es.process} />
     <!-- Contacto -->
   </main>
 </Layout>

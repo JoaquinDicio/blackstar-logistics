@@ -78,7 +78,6 @@ const es = {
     descriptionSecondary:
       "Con el respaldo de una red de socios estratégicos y un equipo especializado, coordinamos cada operación con profesionalismo y atención al detalle, convirtiéndonos en un aliado confiable para impulsar el crecimiento de tu negocio.",
     cta: "Hablar con un especialista",
-
     values: [
       {
         title: "Atención personalizada",

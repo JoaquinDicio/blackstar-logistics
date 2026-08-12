@@ -1,5 +1,6 @@
 ---
 import { Menu, X } from "lucide-astro";
+import logo from "../assets/logo.png";
 
 interface Props {
   content: {
@@ -16,13 +17,11 @@ const { content } = Astro.props;
 
 <nav class="absolute top-0 left-0 z-100 w-full pt-8">
   <div
-    class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8"
+    class="mx-auto flex max-w-7xl items-center justify-between px-6 py-2 lg:px-8"
   >
     <!-- Logo -->
     <a href="/" aria-label="Blackstar Logistics">
-      <span class="text-xl font-bold tracking-wide text-white">
-        BLACKSTAR
-      </span>
+      <img src={logo.src} alt="Logo" class="min-w-75" />
     </a>
 
     <!-- Desktop navigation -->
