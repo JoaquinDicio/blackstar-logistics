@@ -62,6 +62,14 @@ const es = {
     ],
   },
 
+  build_trust: {
+    eyebrow: "Sobre Nosotros",
+    title: "Más que logística, construimos confianza",
+    description:
+      "Combinamos experiencia, planificación y atención personalizada para garantizar operaciones internacionales confiables.",
+    cta: "Hablemos de su operación",
+  },
+
   about: {
     eyebrow: "Sobre Nosotros",
     title: "Conectamos empresas con el mundo",

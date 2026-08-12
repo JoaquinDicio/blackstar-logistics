@@ -1,0 +1,33 @@
+---
+const {content} = Astro.props
+import { Mail } from "lucide-astro";
+import containers from "../assets/containers.png"
+---
+
+<section
+  id="build_trust"
+  class="relative overflow-hidden bg-cover bg-center bg-no-repeat"
+  style={`background-image: url(${containers.src})`}
+>
+  <div class="mx-auto flex bg-[#0D0D0D]/75  flex-col items-center px-6 text-center py-14  w-full">
+    <h2
+      class="text-2xl font-black text-white"
+    >
+      {content.title}
+    </h2>
+
+    <p
+      class="mt-5 max-w-3xl leading-relaxed text-white"
+    >
+      {content.description}
+    </p>
+
+    <a
+      href="#contact"
+      class="mt-7 inline-flex items-center gap-2 rounded-full bg-(--blue) px-7 py-3.5 text-base font-bold text-white shadow-md transition-colors hover:bg-(--blue-dark)"
+    >
+      <Mail size={20} />
+      {content.cta}
+    </a>
+  </div>
+</section>

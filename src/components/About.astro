@@ -1,0 +1,100 @@
+---
+import { Check, Mail } from "lucide-astro";
+import Title from "./Title.astro";
+
+interface Props {
+  content: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    descriptionSecondary: string;
+    cta: string;
+    values: {
+      title: string;
+      description: string;
+    }[];
+  };
+}
+
+const { content } = Astro.props;
+---
+
+<section
+  id="about"
+  class="bg-slate-50 px-10 pt-28 pb-32"
+>
+  <div class="mx-auto max-w-6xl">
+
+    <!-- Section heading -->
+    <Title title={content.eyebrow}/>
+
+    <!-- Content -->
+    <div
+      class="mt-18 grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16"
+    >
+      <!-- Left -->
+      <div>
+        <h3
+          class="font-bold text-(--blue) text-[18px]"
+        >
+          {content.title}
+        </h3>
+
+        <p
+          class="mt-5 text-base leading-[1.35] text-gray-700"
+        >
+          {content.description}
+        </p>
+
+        <p
+          class="mt-5 text-base leading-[1.35] text-gray-700"
+        >
+          {content.descriptionSecondary}
+        </p>
+
+        <a
+          href="#contact"
+          class="mt-8 inline-flex items-center gap-2 text-base font-medium text-(--blue) transition-colors hover:text-(--blue-dark)"
+        >
+          <Mail size={21} strokeWidth={2} />
+          {content.cta}
+        </a>
+      </div>
+
+      <!-- Right -->
+      <div class="flex flex-col gap-3">
+        {content.values.map((value) => (
+          <div
+            class="flex items-center gap-3 rounded-full bg-white px-5 py-3 shadow-[0_5px_20px_rgba(0,0,0,0.08)]"
+          >
+            <!-- Check -->
+            <div
+              class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-(--blue)"
+            >
+              <Check
+                size={21}
+                strokeWidth={2}
+                class="text-(--blue)"
+              />
+            </div>
+
+            <!-- Text -->
+            <div class="min-w-0">
+              <h4
+                class="text-base font-bold leading-tight text-(--blue)"
+              >
+                {value.title}
+              </h4>
+
+              <p
+                class="text-base leading-tight text-gray-700"
+              >
+                {value.description}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
