@@ -1,9 +1,10 @@
 ---
-const {href, className, slot} = Astro.props
-const base_class="inline-flex items-center gap-1.5 rounded-full bg-(--blue) px-4 py-2.5 text-[14px] font-bold text-white transition-colors hover:bg-(--blue-dark)"
-const classes = className ? `${base_class} ${className}` : base_class
+const { href, className, slot } = Astro.props;
+const base_class =
+  "inline-flex items-center gap-1.5 rounded-full bg-(--blue) px-4 py-2.5 text-[14px] font-bold text-white transition-colors hover:bg-(--blue-dark)";
+const classes = className ? `${base_class} ${className}` : base_class;
 ---
 
 <a href={href} class={classes}>
   <slot />
-</a>    
+</a>

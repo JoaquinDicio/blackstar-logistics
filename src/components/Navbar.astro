@@ -1,5 +1,5 @@
 ---
-import { Menu, X } from "lucide-astro";
+import { Menu } from "lucide-astro";
 import logo from "../assets/logo.png";
 
 interface Props {
@@ -15,39 +15,40 @@ interface Props {
 const { content } = Astro.props;
 ---
 
-<nav class="absolute top-0 left-0 z-100 w-full pt-8">
+<nav class="absolute top-0 left-0 z-100 w-full pt-5 md:pt-8">
   <div
-    class="mx-auto flex max-w-7xl items-center justify-between px-6 py-2 lg:px-8"
+    class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-2 sm:px-6 lg:px-8"
   >
     <!-- Logo -->
-    <a href="/" aria-label="Blackstar Logistics">
-      <img src={logo.src} alt="Logo" class="min-w-75" />
+    <a href="/" aria-label="Blackstar Logistics" class="shrink-0">
+      <img src={logo.src} alt="Blackstar Logistics" class="lg:w-80 w-60" />
     </a>
 
     <!-- Desktop navigation -->
     <div
-      class="hidden font-medium text-(--blue) items-center gap-8 md:flex bg-white/80 rounded-full px-12 py-4.5"
+      class="hidden items-center gap-6 rounded-full bg-white/80 px-8 py-4 font-medium text-(--blue) backdrop-blur-sm md:flex lg:gap-8 lg:px-10"
     >
-      <a href="#about" class="text-sm font-medium">
+      <a href="#about" class="text-sm font-medium whitespace-nowrap">
         {content.about}
       </a>
 
-      <a href="#services" class="text-sm font-medium">
+      <a href="#services" class="text-sm font-medium whitespace-nowrap">
         {content.services}
       </a>
 
-      <a href="#work" class="text-sm font-medium">
+      <a href="#work" class="text-sm font-medium whitespace-nowrap">
         {content.work}
       </a>
 
-      <a href="#contact" class="text-sm font-medium">
+      <a href="#contact" class="text-sm font-medium whitespace-nowrap">
         {content.contact}
       </a>
     </div>
 
+    <!-- Desktop quote -->
     <a
       href="#contact"
-      class="rounded-full px-10 py-4 text-sm font-medium text-white transition-colors bg-(--blue) hover:bg-(--blue-dark)"
+      class="shrink-0 rounded-full bg-(--blue) px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-(--blue-dark) lg:px-10 lg:py-4 hidden xl:block"
     >
       {content.quote}
     </a>
@@ -58,33 +59,37 @@ const { content } = Astro.props;
       type="button"
       aria-label="Abrir menú"
       aria-expanded="false"
-      class="text-white md:hidden"
+      class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-(--blue) text-white md:hidden"
     >
-      <Menu size={28} strokeWidth={1.8} />
+      <Menu size={25} strokeWidth={1.8} />
     </button>
   </div>
 
   <!-- Mobile navigation -->
   <div
     id="mobile-menu"
-    class="hidden border-t border-white/10 bg-black/95 px-6 py-6 md:hidden"
+    class="mx-2 mt-3 hidden rounded-2xl bg-white/95 p-6 shadow-lg backdrop-blur-sm md:hidden"
   >
-    <div class="flex flex-col gap-5">
-      <a href="#about" class="text-white/80 hover:text-white">
+    <div class="flex flex-col gap-5 text-(--blue)">
+      <a href="#about" class="font-medium">
         {content.about}
       </a>
 
-      <a href="#services" class="text-white/80 hover:text-white">
+      <a href="#services" class="font-medium">
         {content.services}
       </a>
 
-      <a href="#contact" class="text-white/80 hover:text-white">
+      <a href="#work" class="font-medium">
+        {content.work}
+      </a>
+
+      <a href="#contact" class="font-medium">
         {content.contact}
       </a>
 
       <a
         href="#contact"
-        class="w-fit rounded-full border border-white/30 px-5 py-2.5 text-white"
+        class="w-full rounded-full bg-(--blue) px-5 py-3 text-center text-sm font-medium text-white"
       >
         {content.quote}
       </a>
@@ -93,14 +98,17 @@ const { content } = Astro.props;
 </nav>
 
 <script>
-  import { Menu, X } from "lucide-astro";
-
   const button = document.querySelector("#menu-button");
   const menu = document.querySelector("#mobile-menu");
 
   button?.addEventListener("click", () => {
-    const isOpen = menu?.classList.toggle("hidden");
+    if (!menu) return;
 
-    button?.setAttribute("aria-expanded", String(!isOpen));
+    const isOpen = !menu.classList.contains("hidden");
+
+    menu.classList.toggle("hidden");
+
+    button.setAttribute("aria-expanded", String(!isOpen));
+    button.setAttribute("aria-label", isOpen ? "Abrir menú" : "Cerrar menú");
   });
 </script>

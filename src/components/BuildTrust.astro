@@ -10,19 +10,21 @@ import containers from "../assets/containers.png";
   style={`background-image: url(${containers.src})`}
 >
   <div
-    class="mx-auto flex bg-[#0D0D0D]/75 flex-col items-center px-6 text-center py-14 w-full"
+    class="mx-auto flex bg-[#0D0D0D]/75 flex-col items-center sm:px-6 px-5 text-center sm:py-14 py-10 w-full"
   >
     <h2 class="text-2xl font-black text-white">
       {content.title}
     </h2>
 
-    <p class="mt-5 max-w-3xl leading-relaxed text-white">
+    <p
+      class="mt-5 sm:max-w-3xl text-sm sm:text-base leading-relaxed text-white"
+    >
       {content.description}
     </p>
 
     <a
       href="#contact"
-      class="mt-7 inline-flex items-center gap-2 rounded-full bg-(--blue) px-7 py-3.5 text-base font-bold text-white shadow-md transition-colors hover:bg-(--blue-dark)"
+      class="mt-7 inline-flex text-[14px] items-center gap-2 rounded-full bg-(--blue) px-7 py-3.5 text-base font-bold text-white shadow-md transition-colors hover:bg-(--blue-dark)"
     >
       <Mail size={20} />
       {content.cta}

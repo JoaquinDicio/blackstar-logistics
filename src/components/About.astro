@@ -21,7 +21,7 @@ const { content } = Astro.props;
 
 <section
   id="about"
-  class=" px-10 pt-20 pb-32"
+  class=" sm:px-10 px-5 sm:pt-20 pt-12 sm:pb-32 pb-20"
 >
   <div class="mx-auto max-w-6xl">
 
@@ -30,31 +30,31 @@ const { content } = Astro.props;
 
     <!-- Content -->
     <div
-      class="mt-18 grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16"
+      class="sm:mt-18 mt-10 grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16"
     >
       <!-- Left -->
       <div>
         <h3
-          class="font-bold text-(--blue) text-[18px]"
+          class="font-bold text-(--blue) text-center sm:text-left text-[18px]"
         >
           {content.title}
         </h3>
 
         <p
-          class="mt-5 text-base leading-[1.35] text-gray-700"
+          class="mt-5 text-base leading-[1.35] text-gray-700 sm:text-left text-center"
         >
           {content.description}
         </p>
 
         <p
-          class="mt-5 text-base leading-[1.35] text-gray-700"
+          class="mt-5 text-base leading-[1.35] text-gray-700 sm:text-left text-center"
         >
           {content.descriptionSecondary}
         </p>
 
         <a
           href="#contact"
-          class="mt-8 inline-flex items-center gap-2 text-base font-medium text-(--blue) transition-colors hover:text-(--blue-dark)"
+          class="mt-8 inline-flex items-center gap-2 text-base w-full justify-center sm:justify-start font-medium text-(--blue) transition-colors hover:text-(--blue-dark)"
         >
           <Mail size={21} strokeWidth={2} />
           {content.cta}
@@ -87,7 +87,7 @@ const { content } = Astro.props;
               </h4>
 
               <p
-                class="text-base leading-tight text-gray-700"
+                class="sm:text-base leading-tight text-gray-700 text-sm"
               >
                 {value.description}
               </p>

@@ -28,13 +28,13 @@ const { content }: Props = Astro.props;
       </div>
 
       <!-- Stats -->
-      <div class="grid w-full grid-cols-2 lg:grid-cols-4">
+      <div class="grid w-full grid-cols-2 sm:grid-cols-4">
         {
           content?.map((stat, index) => (
             <div
               class:list={[
                 "flex flex-col items-center justify-center px-5 py-3 text-center",
-                index !== 0 && "border-l border-white/30",
+                index !== 0 && "sm:border-l border-white/30",
               ]}
             >
               <span class="text-2xl font-bold leading-none text-white md:text-3xl">
