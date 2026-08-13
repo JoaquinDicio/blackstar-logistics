@@ -163,11 +163,12 @@ const es = {
 
   contact: {
     eyebrow: "Déjanos tu consulta",
-    title: "Conectemos tu empresa con el mundo.",
-    description: "Completá el formulario y te responderemos a la brevedad.",
+    description:
+      "Conectemos tu empresa con el mundo. Completá el formulario y te responderemos a la brevedad.",
 
     form: {
-      name: "Nombre y Apellido",
+      name: "Nombre",
+      lastName: "Apellido",
       email: "Email",
       message: "Mensaje",
       submit: "Enviar mensaje",
@@ -187,7 +188,6 @@ const es = {
       ],
     },
   },
-
   footer: {
     copyright: "© 2026 Blackstar Logistics. Todos los derechos reservados.",
   },

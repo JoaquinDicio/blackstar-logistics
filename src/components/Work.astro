@@ -15,21 +15,28 @@ interface Step {
 }
 
 const { content } = Astro.props;
+
 import Title from "./Title.astro";
 import marina from "../assets/marina.png";
 ---
 
-<section id="about" class="px-10 pt-20 pb-32">
+<section id="about" class="px-10 pt-20 pb-22 overflow-hidden">
   <Title title={content.eyebrow} className="text-(--blue)!" />
 
-  <div class="pt-14 flex items-center justify-center gap-12 max-w-250 mx-auto">
-    <div>
-      <img
-        src={marina.src}
-        alt="Marina"
-        class="mx-auto w-full max-w-65 object-cover"
-      />
+  <div class="pt-14 flex items-start justify-center gap-12 max-w-250 mx-auto">
+    <div class="relative h-fit">
+      <div id="boat-trigger" class="absolute -top-10 h-1 w-1"></div>
+
+      <div class="sticky top-0 h-fit">
+        <img
+          id="boat"
+          src={marina.src}
+          alt="Marina"
+          class="mx-auto w-full max-w-65 -translate-y-50 object-cover transition-transform duration-2000 ease-in-out"
+        />
+      </div>
     </div>
+
     <div class="w-fit">
       <h3 class="font-bold text-(--blue)">
         {content.title}
@@ -40,15 +47,17 @@ import marina from "../assets/marina.png";
       </p>
 
       {
-        content.steps.map((step, index) => (
+        content.steps.map((step) => (
           <div class="flex max-w-120 items-center gap-5 rounded-[20px] bg-white my-2 px-8 py-5 shadow-[0_5px_20px_rgba(0,0,0,0.08)]">
             <p>
               <span class="font-bold text-(--blue) text-4xl">
                 {step.number}
               </span>
             </p>
+
             <div>
               <h4 class="font-bold text-[16px] text-(--blue)">{step.title}</h4>
+
               <p class="text-[14px] leading-tight text-(--text-dark)">
                 {step.description}
               </p>
@@ -59,3 +68,52 @@ import marina from "../assets/marina.png";
     </div>
   </div>
 </section>
+<script>
+  const trigger = document.querySelector("#boat-trigger");
+  const boat = document.querySelector("#boat");
+  const section = document.querySelector("#about");
+
+  if (trigger && boat && section) {
+    let finished = false;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (finished) return;
+
+        boat.classList.toggle("translate-y-10", entry.isIntersecting);
+        boat.classList.toggle("-translate-y-50", !entry.isIntersecting);
+      },
+      {
+        threshold: 0.2,
+      },
+    );
+
+    observer.observe(trigger);
+
+    const handleScroll = () => {
+      const rect = section.getBoundingClientRect();
+
+      // Llegamos aproximadamente a la mitad inferior
+      // de la sección: el barco queda abajo.
+      if (!finished && rect.bottom <= window.innerHeight * 0.5) {
+        finished = true;
+
+        boat.classList.remove("-translate-y-50");
+        boat.classList.add("translate-y-10");
+      }
+
+      // Volvimos suficientemente arriba:
+      // permitimos nuevamente la animación inversa.
+      if (finished && rect.top >= window.innerHeight * 0.5) {
+        finished = false;
+
+        boat.classList.remove("translate-y-10");
+        boat.classList.add("-translate-y-50");
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
+  }
+</script>

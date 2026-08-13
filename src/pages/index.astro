@@ -8,12 +8,13 @@ import BuildTrust from "../components/BuildTrust.astro";
 import About from "../components/About.astro";
 import Stats from "../components/Stats.astro";
 import Work from "../components/Work.astro";
+import Contact from "../components/Contact.astro";
+import Footer from "../components/Footer.astro";
 ---
 
 <Layout lang="es" title={es.meta.title} description={es.meta.description}>
+  <NavBar content={es.nav} />
   <main class="bg-[#F7F9F9] min-h-screen">
-    <NavBar content={es.nav} />
-
     <Hero content={es.hero} />
 
     <Services content={es.services} />
@@ -25,6 +26,8 @@ import Work from "../components/Work.astro";
     <Stats content={es.about.stats} />
 
     <Work content={es.process} />
-    <!-- Contacto -->
+
+    <Contact content={es.contact} />
   </main>
+  <Footer content={es.footer} />
 </Layout>
