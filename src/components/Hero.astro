@@ -1,8 +1,9 @@
 ---
-import { Mail, PackageCheck } from "lucide-astro";
+import { Mail, PackageCheck, ChevronLeft, ChevronRight } from "lucide-astro";
 import heroBg from "../assets/hero-bg.png";
+import heroBg2 from "../assets/hero_2.webp";
+import heroBg3 from "../assets/hero_3.webp";
 import RoundedButton from "../components/RoundedButton.astro";
-import logo from "../assets/logo.png";
 
 interface Props {
   content: {
@@ -13,12 +14,85 @@ interface Props {
 }
 
 const { content } = Astro.props;
+
+const backgrounds = [
+  { src: heroBg.src, position: "center" },
+  { src: heroBg2.src, position: "center 90%" },
+  { src: heroBg3.src, position: "25% 70%" },
+];
 ---
 
-<section
-  class="relative overflow-hidden bg-top-center bg-no-repeat bg-cover"
-  style={`background-image: url(${heroBg.src})`}
->
+<section class="relative overflow-hidden">
+  <!-- Background slider -->
+  <div class="absolute inset-0">
+    {
+      backgrounds.map((background, index) => (
+        <div
+          class={`hero-background absolute inset-0 bg-top-center bg-no-repeat bg-cover transition-opacity duration-1000 ${
+            index === 0 ? "opacity-100" : "opacity-0"
+          }`}
+          style={`background-image: url(${background.src}); background-position: ${background.position};`}
+        />
+      ))
+    }
+  </div>
+
+  <!-- Previous button -->
+  <button
+    type="button"
+    id="hero-prev"
+    aria-label="Previous slide"
+    class="absolute
+      left-4
+      top-1/2
+      z-30
+      -translate-y-1/2
+      flex
+      h-7
+      w-7
+      mt-8
+      items-center
+      justify-center
+      rounded-full
+      bg-white/10
+      text-white
+      transition
+      hover:bg-black/40
+      sm:left-6
+      sm:h-12
+      sm:w-12"
+  >
+    <ChevronLeft size={22} />
+  </button>
+
+  <!-- Next button -->
+  <button
+    type="button"
+    id="hero-next"
+    aria-label="Next slide"
+    class="absolute
+    mt-8
+      right-4
+      top-1/2
+      z-30
+      -translate-y-1/2
+      flex
+      h-7
+      w-7
+      items-center
+      justify-center
+      rounded-full
+      bg-white/20
+      text-white
+      transition
+      hover:bg-black/40
+      sm:right-6
+      sm:h-12
+      sm:w-12"
+  >
+    <ChevronRight size={22} />
+  </button>
+
   <!-- Hero content -->
   <div
     class="relative min-h-screen bg-black/60 z-10 flex h-full flex-col items-center justify-center px-6 pb-10 text-center gap-4 sm:gap-2"
@@ -40,12 +114,13 @@ const { content } = Astro.props;
         <Mail size={16} />
         {content.contact}
       </RoundedButton>
+
       <RoundedButton
         className="
-        justify-center
-        bg-white
-        text-(--blue)!
-        hover:bg-slate-100"
+    justify-center
+    bg-white
+    text-(--blue)!
+    hover:bg-slate-100"
         href="#services"
       >
         <PackageCheck size={16} />
@@ -59,3 +134,50 @@ const { content } = Astro.props;
   >
   </div>
 </section>
+
+<script>
+  const backgrounds =
+    document.querySelectorAll<HTMLElement>(".hero-background");
+
+  const prevButton = document.querySelector<HTMLButtonElement>("#hero-prev");
+  const nextButton = document.querySelector<HTMLButtonElement>("#hero-next");
+
+  if (backgrounds.length > 1) {
+    let current = 0;
+
+    let interval = setInterval(nextSlide, 5000);
+
+    function showSlide(index: number) {
+      backgrounds[current].classList.remove("opacity-100");
+      backgrounds[current].classList.add("opacity-0");
+
+      current = (index + backgrounds.length) % backgrounds.length;
+
+      backgrounds[current].classList.remove("opacity-0");
+      backgrounds[current].classList.add("opacity-100");
+    }
+
+    function nextSlide() {
+      showSlide(current + 1);
+    }
+
+    function prevSlide() {
+      showSlide(current - 1);
+    }
+
+    function resetInterval() {
+      clearInterval(interval);
+      interval = setInterval(nextSlide, 5000);
+    }
+
+    nextButton?.addEventListener("click", () => {
+      nextSlide();
+      resetInterval();
+    });
+
+    prevButton?.addEventListener("click", () => {
+      prevSlide();
+      resetInterval();
+    });
+  }
+</script>
