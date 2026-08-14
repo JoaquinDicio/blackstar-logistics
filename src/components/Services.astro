@@ -1,6 +1,7 @@
 ---
 const { content } = Astro.props;
 import Title from "./Title.astro";
+import { ChevronLeft, ChevronRight } from "lucide-astro";
 
 interface Service {
   image: string;
@@ -20,44 +21,165 @@ interface Service {
     {content.description}
   </p>
 
-  <div
-    class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 max-w-250 w-full"
-  >
-    {
-      content.items.map((item: Service) => (
-        <div
-          class="relative service-card min-h-75 overflow-hidden rounded-[20px] bg-cover bg-center bg-no-repeat text-white"
-          style={`background-image: url(${item.image})`}
-        >
-          <div class="absolute inset-0 bg-black/60" />
+  <div class="relative max-w-250 w-full">
+    <!-- Previous button -->
+    <button
+      type="button"
+      id="services-prev"
+      aria-label="Previous slide"
+      class="absolute
+      left-2
+      top-1/2
+      z-30
+      -translate-y-1/2
+      flex
+      h-7
+      w-7
+      items-center
+      justify-center
+      rounded-full
+      bg-white/10
+      text-white
+      transition
+      hover:bg-black/40
+      sm:left-6
+      sm:h-12
+      sm:w-12"
+    >
+      <ChevronLeft size={22} />
+    </button>
 
-          <div class="absolute inset-x-0 bottom-0 p-8">
-            <h3 class="font-bold text-xl">{item.title}</h3>
+    <!-- Slider viewport -->
+    <div class="overflow-hidden md:overflow-visible">
+      <!-- Slider track -->
+      <div
+        id="services-slider"
+        class="grid
+          grid-cols-1
+          gap-5
+          md:grid-cols-2
+          lg:grid-cols-3
+          max-w-250
+          w-full"
+      >
+        {
+          content.items.map((item: Service) => (
+            <div
+              class="relative service-card min-h-75 overflow-hidden rounded-[20px] bg-cover bg-center bg-no-repeat text-white"
+              style={`background-image: url(${item.image})`}
+            >
+              <div class="absolute inset-0 bg-black/60" />
 
-            <div class="service-description grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out">
-              <div class="overflow-hidden">
-                <p class="font-medium text-[14px] leading-relaxed">
-                  {item.description}
-                </p>
+              <div class="absolute inset-x-0 bottom-0 flex flex-col justify-between p-8">
+                <div>
+                  <h3 class="font-bold text-xl">{item.title}</h3>
+                  <div class="service-description grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out">
+                    <div class="overflow-hidden">
+                      <p class="font-medium text-[14px] leading-relaxed">
+                        {item.description}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  class="service-button mt-5 flex cursor-pointer items-center gap-2 text-sm font-semibold"
+                >
+                  Ver más
+                  <span class="text-lg leading-none">→</span>
+                </button>
               </div>
             </div>
+          ))
+        }
+      </div>
+    </div>
 
-            <button
-              type="button"
-              class="service-button mt-5 flex cursor-pointer items-center gap-2 text-sm font-semibold"
-            >
-              Ver más
-              <span class="text-lg leading-none">→</span>
-            </button>
-          </div>
-        </div>
-      ))
-    }
+    <!-- Next button -->
+    <button
+      type="button"
+      id="services-next"
+      aria-label="Previous slide"
+      class="absolute
+      right-2
+      top-1/2
+      z-30
+      -translate-y-1/2
+      flex
+      h-7
+      w-7
+      items-center
+      justify-center
+      rounded-full
+      bg-white/10
+      text-white
+      transition
+      hover:bg-black/40
+      sm:left-6
+      sm:h-12
+      sm:w-12"
+    >
+      <ChevronRight size={22} />
+    </button>
   </div>
 </section>
 
+<style>
+  @media (max-width: 767px) {
+    #services-slider {
+      display: flex;
+      gap: 0;
+      transition: transform 500ms ease;
+    }
+
+    .service-card {
+      min-width: 100%;
+      flex: 0 0 100%;
+    }
+  }
+</style>
+
 <script>
-  const cards = document.querySelectorAll(".service-card");
+  const cards = document.querySelectorAll<HTMLElement>(".service-card");
+
+  const slider = document.querySelector<HTMLElement>("#services-slider");
+  const prevButton =
+    document.querySelector<HTMLButtonElement>("#services-prev");
+  const nextButton =
+    document.querySelector<HTMLButtonElement>("#services-next");
+
+  let current = 0;
+  let interval: ReturnType<typeof setInterval> | undefined;
+
+  const isMobile = () => window.innerWidth < 768;
+
+  const stopAutoSlide = () => {
+    if (interval) {
+      clearInterval(interval);
+      interval = undefined;
+    }
+  };
+
+  const startAutoSlide = () => {
+    stopAutoSlide();
+
+    if (isMobile() && cards.length > 1) {
+      interval = setInterval(nextSlide, 5000);
+    }
+  };
+
+  const hideNavigation = () => {
+    if (!isMobile()) return;
+
+    prevButton?.classList.add("hidden");
+    nextButton?.classList.add("hidden");
+  };
+
+  const showNavigation = () => {
+    prevButton?.classList.remove("hidden");
+    nextButton?.classList.remove("hidden");
+  };
 
   cards.forEach((card) => {
     const button = card.querySelector<HTMLButtonElement>(".service-button");
@@ -73,6 +195,52 @@ interface Service {
       button.innerHTML = isOpen
         ? `Ocultar <span class="text-lg leading-none">←</span>`
         : `Ver más <span class="text-lg leading-none">→</span>`;
+
+      if (isOpen) {
+        stopAutoSlide();
+        hideNavigation();
+      } else {
+        showNavigation();
+        startAutoSlide();
+      }
     });
   });
+
+  if (slider && prevButton && nextButton && cards.length > 1) {
+    const showSlide = (index: number) => {
+      current = (index + cards.length) % cards.length;
+
+      if (!isMobile()) {
+        slider.style.transform = "";
+        return;
+      }
+
+      slider.style.transform = `translateX(-${current * 100}%)`;
+    };
+
+    const nextSlide = () => {
+      showSlide(current + 1);
+    };
+
+    const prevSlide = () => {
+      showSlide(current - 1);
+    };
+
+    nextButton.addEventListener("click", () => {
+      nextSlide();
+      startAutoSlide();
+    });
+
+    prevButton.addEventListener("click", () => {
+      prevSlide();
+      startAutoSlide();
+    });
+
+    window.addEventListener("resize", () => {
+      showSlide(current);
+      startAutoSlide();
+    });
+
+    startAutoSlide();
+  }
 </script>
