@@ -86,7 +86,7 @@ const en = {
     eyebrow: "About Us",
     title: "We connect businesses with the world",
     description:
-      "At Black Star Logistics, we provide comprehensive international trade solutions, supporting businesses through every stage of their import and export operations. Our commitment is to deliver an efficient, transparent, and personalized service tailored to each client's needs.",
+      "At Blackstar Logistics, we provide comprehensive international trade solutions, supporting businesses through every stage of their import and export operations. Our commitment is to deliver an efficient, transparent, and personalized service tailored to each client's needs.",
     descriptionSecondary:
       "Backed by a network of strategic partners and a specialized team, we coordinate every operation with professionalism and attention to detail, becoming a trusted partner to help drive your business growth.",
     cta: "Talk to a Specialist",

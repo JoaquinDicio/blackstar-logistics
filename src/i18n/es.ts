@@ -86,7 +86,7 @@ const es = {
     eyebrow: "Sobre Nosotros",
     title: "Conectamos empresas con el mundo",
     description:
-      "En Black Star Logística brindamos soluciones integrales de comercio internacional, acompañando a empresas en cada etapa de sus operaciones de importación y exportación. Nuestro compromiso es ofrecer un servicio eficiente, transparente y personalizado, adaptado a las necesidades de cada cliente.",
+      "En Blackstar Logistics brindamos soluciones integrales de comercio internacional, acompañando a empresas en cada etapa de sus operaciones de importación y exportación. Nuestro compromiso es ofrecer un servicio eficiente, transparente y personalizado, adaptado a las necesidades de cada cliente.",
     descriptionSecondary:
       "Con el respaldo de una red de socios estratégicos y un equipo especializado, coordinamos cada operación con profesionalismo y atención al detalle, convirtiéndonos en un aliado confiable para impulsar el crecimiento de tu negocio.",
     cta: "Hablar con un especialista",
