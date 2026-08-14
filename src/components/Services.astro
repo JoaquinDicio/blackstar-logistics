@@ -18,19 +18,59 @@ interface Service {
     {content.description}
   </p>
 
-  <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 max-w-250">
+  <div
+    class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 max-w-250 w-full"
+  >
     {
       content.items.map((item: Service) => (
         <div
-          class="text-white rounded-[20px] overflow-hidden bg-cover bg-no-repeat min-h-75"
+          class="relative service-card min-h-75 overflow-hidden rounded-[20px] bg-cover bg-center bg-no-repeat text-white"
           style={`background-image: url(${item.image})`}
         >
-          <div class="bg-[#02326D]/80 p-8 h-full">
-            <h3 class="font-bold text-[16px] pb-5">{item.title}</h3>
-            <p class="font-medium text-[14px]">{item.description}</p>
+          <div class="absolute inset-0 bg-[#02326D]/70" />
+
+          <div class="absolute inset-x-0 bottom-0 p-8">
+            <h3 class="font-bold text-xl">{item.title}</h3>
+
+            <div class="service-description grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out">
+              <div class="overflow-hidden">
+                <p class="font-medium text-[14px] leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              class="service-button mt-5 flex cursor-pointer items-center gap-2 text-sm font-semibold"
+            >
+              Ver más
+              <span class="text-lg leading-none">→</span>
+            </button>
           </div>
         </div>
       ))
     }
   </div>
 </section>
+
+<script>
+  const cards = document.querySelectorAll(".service-card");
+
+  cards.forEach((card) => {
+    const button = card.querySelector<HTMLButtonElement>(".service-button");
+    const description = card.querySelector<HTMLElement>(".service-description");
+
+    if (!button || !description) return;
+
+    button.addEventListener("click", () => {
+      description.classList.toggle("grid-rows-[1fr]");
+
+      const isOpen = description.classList.contains("grid-rows-[1fr]");
+
+      button.innerHTML = isOpen
+        ? `Ocultar <span class="text-lg leading-none">←</span>`
+        : `Ver más <span class="text-lg leading-none">→</span>`;
+    });
+  });
+</script>

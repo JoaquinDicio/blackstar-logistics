@@ -15,7 +15,7 @@ const { content }: Props = Astro.props;
 ---
 
 <section
-  class="flex items-center bg-center bg-no-repeat bg-cover"
+  class="stats-section flex items-center bg-center bg-no-repeat bg-cover"
   style={`background-image: url(${statsBg.src})`}
 >
   <div
@@ -37,8 +37,11 @@ const { content }: Props = Astro.props;
                 index !== 0 && "sm:border-l border-white/30",
               ]}
             >
-              <span class="text-2xl font-bold leading-none text-white md:text-3xl">
-                {stat.value}
+              <span
+                class="stat-number text-2xl font-bold leading-none text-white md:text-3xl"
+                data-value={stat.value}
+              >
+                0
               </span>
 
               <span class="mt-1 max-w-[110px] text-[10px] font-medium leading-tight text-white/90 md:text-xs">
@@ -51,3 +54,46 @@ const { content }: Props = Astro.props;
     </div>
   </div>
 </section>
+<script>
+  const section = document.querySelector<HTMLElement>(".stats-section");
+  const stats = document.querySelectorAll<HTMLElement>(".stat-number");
+
+  const animateNumber = (element: HTMLElement) => {
+    const value = element.dataset.value ?? "";
+    const target = parseInt(value.replace(/\D/g, ""), 10);
+    const prefix = value.match(/^\D+/)?.[0] ?? "";
+
+    if (isNaN(target)) return;
+
+    const duration = 1500;
+    const start = performance.now();
+
+    const update = (currentTime: number) => {
+      const progress = Math.min((currentTime - start) / duration, 1);
+      const easedProgress = 1 - Math.pow(1 - progress, 3);
+      const current = Math.floor(target * easedProgress);
+
+      element.textContent = `${prefix}${current}`;
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      }
+    };
+
+    requestAnimationFrame(update);
+  };
+
+  if (section) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          stats.forEach(animateNumber);
+          observer.unobserve(section);
+        }
+      },
+      { threshold: 0.2 },
+    );
+
+    observer.observe(section);
+  }
+</script>
