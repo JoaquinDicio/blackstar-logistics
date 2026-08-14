@@ -154,6 +154,27 @@ interface Service {
 
   const isMobile = () => window.innerWidth < 768;
 
+  const showSlide = (index: number) => {
+    current = (index + cards.length) % cards.length;
+
+    if (!isMobile()) {
+      if (slider) slider.style.transform = "";
+      return;
+    }
+
+    if (slider) {
+      slider.style.transform = `translateX(-${current * 100}%)`;
+    }
+  };
+
+  const nextSlide = () => {
+    showSlide(current + 1);
+  };
+
+  const prevSlide = () => {
+    showSlide(current - 1);
+  };
+
   const stopAutoSlide = () => {
     if (interval) {
       clearInterval(interval);
@@ -207,25 +228,6 @@ interface Service {
   });
 
   if (slider && prevButton && nextButton && cards.length > 1) {
-    const showSlide = (index: number) => {
-      current = (index + cards.length) % cards.length;
-
-      if (!isMobile()) {
-        slider.style.transform = "";
-        return;
-      }
-
-      slider.style.transform = `translateX(-${current * 100}%)`;
-    };
-
-    const nextSlide = () => {
-      showSlide(current + 1);
-    };
-
-    const prevSlide = () => {
-      showSlide(current - 1);
-    };
-
     nextButton.addEventListener("click", () => {
       nextSlide();
       startAutoSlide();
