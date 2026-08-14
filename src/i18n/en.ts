@@ -18,6 +18,8 @@ const en = {
     work: "How We Work",
     contact: "Contact",
     quote: "Request a Quote",
+    language: "https://flagicons.lipis.dev/flags/4x3/es.svg",
+    language_switch: "Cambiar idioma",
   },
 
   hero: {

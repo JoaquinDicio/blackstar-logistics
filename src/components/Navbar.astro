@@ -1,5 +1,5 @@
 ---
-import { Menu } from "lucide-astro";
+import { Menu, X } from "lucide-astro";
 import logo from "../assets/logo.png";
 
 interface Props {
@@ -9,10 +9,15 @@ interface Props {
     work: string;
     contact: string;
     quote: string;
+    language: string;
+    language_switch: string;
   };
 }
 
 const { content } = Astro.props;
+
+const isEnglish = Astro.url.pathname.startsWith("/en");
+const languageHref = isEnglish ? "/" : "/en";
 ---
 
 <nav class="absolute top-0 left-0 z-100 w-full pt-5 md:pt-8">
@@ -20,8 +25,12 @@ const { content } = Astro.props;
     class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-2 sm:px-6 lg:px-8"
   >
     <!-- Logo -->
-    <a href="/" aria-label="Blackstar Logistics" class="shrink-0">
-      <img src={logo.src} alt="Blackstar Logistics" class="lg:w-80 w-60" />
+    <a
+      href={isEnglish ? "/en" : "/"}
+      aria-label="Blackstar Logistics"
+      class="shrink-0"
+    >
+      <img src={logo.src} alt="Blackstar Logistics" class="w-60 lg:w-80" />
     </a>
 
     <!-- Desktop navigation -->
@@ -45,10 +54,18 @@ const { content } = Astro.props;
       </a>
     </div>
 
+    <!-- Select language -->
+    <a
+      href={languageHref}
+      class="text-sm md:block hidden rounded-full overflow-hidden font-semibold whitespace-nowrap text-white"
+    >
+      <img class="w-7 h-7 object-cover" src={content.language} />
+    </a>
+
     <!-- Desktop quote -->
     <a
       href="#contact"
-      class="shrink-0 rounded-full bg-(--blue) px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-(--blue-dark) lg:px-10 lg:py-4 hidden xl:block"
+      class="hidden shrink-0 rounded-full bg-(--blue) px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-(--blue-dark) xl:block lg:px-10 lg:py-4"
     >
       {content.quote}
     </a>
@@ -59,16 +76,27 @@ const { content } = Astro.props;
       type="button"
       aria-label="Abrir menú"
       aria-expanded="false"
+      aria-controls="mobile-menu"
       class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-(--blue) text-white md:hidden"
     >
-      <Menu size={25} strokeWidth={1.8} />
+      <Menu
+        size={25}
+        strokeWidth={1.8}
+        class="menu-icon transition-transform duration-300"
+      />
+      <X
+        size={25}
+        strokeWidth={1.8}
+        class="close-icon hidden transition-transform duration-300"
+      />
     </button>
   </div>
 
   <!-- Mobile navigation -->
   <div
     id="mobile-menu"
-    class="mx-2 mt-3 hidden rounded-2xl bg-white/95 p-6 shadow-lg backdrop-blur-sm md:hidden"
+    aria-hidden="true"
+    class="mobile-menu mx-2 mt-3 rounded-2xl bg-white/95 p-6 shadow-lg backdrop-blur-sm md:hidden"
   >
     <div class="flex flex-col gap-5 text-(--blue)">
       <a href="#about" class="font-medium">
@@ -88,8 +116,19 @@ const { content } = Astro.props;
       </a>
 
       <a
+        href={languageHref}
+        class="font-medium rounded-full flex items-center gap-3"
+      >
+        {content.language_switch}
+        <img
+          class="w-7 h-7 object-cover rounded-full overflow-hidden"
+          src={content.language}
+        />
+      </a>
+
+      <a
         href="#contact"
-        class="w-full rounded-full bg-(--blue) px-5 py-3 text-center text-sm font-medium text-white"
+        class="mt-1 w-full rounded-full bg-(--blue) px-5 py-3 text-center text-sm font-medium text-white transition-colors hover:bg-(--blue-dark)"
       >
         {content.quote}
       </a>
@@ -97,18 +136,60 @@ const { content } = Astro.props;
   </div>
 </nav>
 
+<style>
+  .mobile-menu {
+    opacity: 0;
+    transform: translateY(-10px);
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      opacity 250ms ease,
+      transform 250ms ease,
+      visibility 250ms ease;
+  }
+
+  .mobile-menu.is-open {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+    pointer-events: auto;
+  }
+</style>
+
 <script>
-  const button = document.querySelector("#menu-button");
-  const menu = document.querySelector("#mobile-menu");
+  const button = document.querySelector<HTMLButtonElement>("#menu-button");
+  const menu = document.querySelector<HTMLElement>("#mobile-menu");
+  const menuIcon = button?.querySelector(".menu-icon");
+  const closeIcon = button?.querySelector(".close-icon");
 
-  button?.addEventListener("click", () => {
-    if (!menu) return;
+  if (button && menu) {
+    const setMenuState = (open: boolean) => {
+      menu.classList.toggle("is-open", open);
 
-    const isOpen = !menu.classList.contains("hidden");
+      button.setAttribute("aria-expanded", String(open));
+      button.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+      menu.setAttribute("aria-hidden", String(!open));
 
-    menu.classList.toggle("hidden");
+      menuIcon?.classList.toggle("hidden", open);
+      closeIcon?.classList.toggle("hidden", !open);
+    };
 
-    button.setAttribute("aria-expanded", String(!isOpen));
-    button.setAttribute("aria-label", isOpen ? "Abrir menú" : "Cerrar menú");
-  });
+    button.addEventListener("click", () => {
+      const isOpen = button.getAttribute("aria-expanded") === "true";
+
+      setMenuState(!isOpen);
+    });
+
+    menu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        setMenuState(false);
+      });
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        setMenuState(false);
+      }
+    });
+  }
 </script>
