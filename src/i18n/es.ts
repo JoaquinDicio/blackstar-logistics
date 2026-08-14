@@ -1,4 +1,9 @@
 import img_import from "../assets/imports.png";
+import img_logistics from "../assets/logistics.png";
+import img_exports from "../assets/exports.png";
+import img_containers from "../assets/sell-containers.png";
+import img_ground from "../assets/ground.png";
+import img_shopping from "../assets/shopping.png";
 
 const es = {
   meta: {
@@ -35,26 +40,31 @@ const es = {
           "Importamos productos de cualquier parte del mundo hacia Argentina, sin importar volumen ni complejidad.",
       },
       {
+        image: img_logistics.src,
         title: "Logística Internacional",
         description:
           "Transporte marítimo, aéreo, triangulación de cargas y seguimiento en tiempo real con red global.",
       },
       {
+        image: img_exports.src,
         title: "Exportaciones",
         description:
           "Exportaciones desde Argentina hacia Asia y cualquier destino, adaptadas a cada cliente y tipo de carga.",
       },
       {
+        image: img_shopping.src,
         title: "Compras Internacionales",
         description:
           "Brokers propios en China y EE. UU. que buscan fabricantes, negocian precios y verifican proveedores.",
       },
       {
+        image: img_ground.src,
         title: "Transporte Terrestre",
         description:
           "Distribución nacional dentro de Argentina, del puerto o aeropuerto hasta el destino final.",
       },
       {
+        image: img_containers.src,
         title: "Venta de Contenedores",
         description:
           "Contenedores One Trip y usados nacionalizados, en distintas medidas y configuraciones.",
