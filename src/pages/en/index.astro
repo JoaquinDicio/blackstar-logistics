@@ -1,0 +1,33 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import en from "../../i18n/en";
+import NavBar from "../../components/Navbar.astro";
+import Hero from "../../components/Hero.astro";
+import Services from "../../components/Services.astro";
+import BuildTrust from "../../components/BuildTrust.astro";
+import About from "../../components/About.astro";
+import Stats from "../../components/Stats.astro";
+import Work from "../../components/Work.astro";
+import Contact from "../../components/Contact.astro";
+import Footer from "../../components/Footer.astro";
+---
+
+<Layout lang="en" title={en.meta.title} description={en.meta.description}>
+  <NavBar content={en.nav} />
+  <main class="bg-[#F7F9F9] min-h-screen">
+    <Hero content={en.hero} />
+
+    <Services content={en.services} />
+
+    <BuildTrust content={en.build_trust} />
+
+    <About content={en.about} />
+
+    <Stats content={en.about.stats} />
+
+    <Work content={en.process} />
+
+    <Contact content={en.contact} />
+  </main>
+  <Footer content={en.footer} />
+</Layout>

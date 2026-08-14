@@ -36,13 +36,9 @@ const { content } = Astro.props;
     <div
       class="mt-5 flex flex-col sm:flex-row sm:items-center gap-3 w-full sm:w-fit"
     >
-      <RoundedButton
-        href="#contact"
-        text={content.services}
-        className="justify-center"
-      >
+      <RoundedButton href="#contact" className="justify-center">
         <Mail size={16} />
-        Contactar
+        {content.contact}
       </RoundedButton>
       <RoundedButton
         className="
@@ -51,10 +47,9 @@ const { content } = Astro.props;
         text-(--blue)!
         hover:bg-slate-100"
         href="#services"
-        text={content.services}
       >
         <PackageCheck size={16} />
-        Nuestros servicios
+        {content.services}
       </RoundedButton>
     </div>
   </div>
