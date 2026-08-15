@@ -119,7 +119,7 @@ const en = {
         label: "Trucks dispatched",
       },
       {
-        value: "+10",
+        value: "+25",
         label: "Years of experience",
       },
       {
@@ -171,6 +171,10 @@ const en = {
           "Domestic ground distribution to the final destination of your goods.",
       },
     ],
+  },
+
+  marquee: {
+    title: "Our Partners",
   },
 
   contact: {

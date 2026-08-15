@@ -1,0 +1,94 @@
+---
+import Title from "./Title.astro";
+interface Logo {
+  src: string;
+  alt: string;
+}
+
+interface Props {
+  logos: Logo[];
+  content: {
+    title: string;
+  };
+}
+
+const { logos, content } = Astro.props;
+---
+
+<section class="w-full overflow-hidden pb-12">
+  <div class="mb-8 flex items-center justify-center flex-col">
+    <Title title={content.title} />
+  </div>
+
+  <div class="relative w-full overflow-hidden">
+    <div class="logo-track">
+      <div class="logo-group flex">
+        {
+          logos.map((logo) => (
+            <div class="logo-item">
+              <img src={logo.src} alt={logo.alt} loading="lazy" />
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="logo-group" aria-hidden="true">
+        {
+          logos.map((logo) => (
+            <div class="logo-item">
+              <img src={logo.src} alt="" loading="lazy" />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .logo-track {
+    display: flex;
+    width: max-content;
+    animation: logo-scroll 20s linear infinite;
+    will-change: transform;
+  }
+
+  .logo-group {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-shrink: 0;
+    margin-right: 2rem;
+  }
+
+  .logo-item {
+    width: 12rem;
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .logo-item img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  @keyframes logo-scroll {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo-track {
+      animation: none;
+    }
+  }
+</style>

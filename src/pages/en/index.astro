@@ -10,6 +10,9 @@ import Stats from "../../components/Stats.astro";
 import Work from "../../components/Work.astro";
 import Contact from "../../components/Contact.astro";
 import Footer from "../../components/Footer.astro";
+import Marquee from "../../components/Marquee.astro";
+import aduanasLogo from "../../assets/aduana-logo.webp";
+import segurosLogo from "../../assets/seguros-logo.webp";
 ---
 
 <Layout lang="en" title={en.meta.title} description={en.meta.description}>
@@ -26,6 +29,14 @@ import Footer from "../../components/Footer.astro";
     <Stats content={en.about.stats} />
 
     <Work content={en.process} />
+
+    <Marquee
+      content={en.marquee}
+      logos={[
+        { src: aduanasLogo.src, alt: "Aduanas" },
+        { src: segurosLogo.src, alt: "Seguros" },
+      ]}
+    />
 
     <Contact content={en.contact} />
   </main>

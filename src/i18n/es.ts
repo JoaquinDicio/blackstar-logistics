@@ -119,7 +119,7 @@ const es = {
         label: "Camiones despachados",
       },
       {
-        value: "+10",
+        value: "+25",
         label: "Años de experiencia",
       },
       {
@@ -171,6 +171,10 @@ const es = {
           "Distribución terrestre nacional hasta el destino final de su mercadería.",
       },
     ],
+  },
+
+  marquee: {
+    title: "Nuestros respaldos",
   },
 
   contact: {
