@@ -1,6 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import en from "../../i18n/en";
+import pt from "../../i18n/pt";
 import NavBar from "../../components/Navbar.astro";
 import Hero from "../../components/Hero.astro";
 import Services from "../../components/Services.astro";
@@ -15,23 +15,24 @@ import aduanasLogo from "../../assets/aduana-logo.webp";
 import segurosLogo from "../../assets/seguros-logo.webp";
 ---
 
-<Layout lang="en" title={en.meta.title} description={en.meta.description}>
-  <NavBar content={en.nav} />
-  <main class="bg-[#F7F9F9] min-h-screen">
-    <Hero content={en.hero} />
+<Layout lang="pt" title={pt.meta.title} description={pt.meta.description}>
+  <NavBar content={pt.nav} />
 
-    <Services content={en.services} />
+  <main class="min-h-screen bg-[#F7F9F9]">
+    <Hero content={pt.hero} />
 
-    <BuildTrust content={en.build_trust} />
+    <Services content={pt.services} />
 
-    <About content={en.about} />
+    <BuildTrust content={pt.build_trust} />
 
-    <Stats content={en.about.stats} />
+    <About content={pt.about} />
 
-    <Work content={en.process} />
+    <Stats content={pt.about.stats} />
+
+    <Work content={pt.process} />
 
     <Marquee
-      content={en.marquee}
+      content={pt.marquee}
       logos={[
         { src: aduanasLogo.src, alt: "Aduanas" },
         { src: segurosLogo.src, alt: "Seguros" },
@@ -42,7 +43,8 @@ import segurosLogo from "../../assets/seguros-logo.webp";
       ]}
     />
 
-    <Contact content={en.contact} />
+    <Contact content={pt.contact} />
   </main>
-  <Footer content={en.footer} />
+
+  <Footer content={pt.footer} />
 </Layout>

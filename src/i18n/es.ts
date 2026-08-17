@@ -199,8 +199,8 @@ const es = {
     offices: {
       title: "Nuestras Oficinas",
       locations: [
-        "Av. Alvarez Thomas 1607, Buenos Aires",
-        "Arturo Illia 579 4 A, Neuquén Capital",
+        "Av. Alvarez Thomas 1607, Buenos Aires, Argentina",
+        "Arturo Illia 579 4 A, Neuquén Capital, Argentina",
       ],
     },
   },
