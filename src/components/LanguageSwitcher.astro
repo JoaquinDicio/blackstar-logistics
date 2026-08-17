@@ -3,10 +3,10 @@ import { ChevronUp, Check } from "lucide-astro";
 
 const pathname = Astro.url.pathname;
 
-const isEnglish = pathname.startsWith("/en");
+const isSpanish = pathname.startsWith("/es");
 const isPortuguese = pathname.startsWith("/pt");
 
-const currentLanguage = isEnglish ? "en" : isPortuguese ? "pt" : "es";
+const currentLanguage = isSpanish ? "es" : isPortuguese ? "pt" : "en";
 
 const languages = [
   {
@@ -14,14 +14,14 @@ const languages = [
     label: "ES",
     name: "Español",
     flag: "https://flagicons.lipis.dev/flags/4x3/ar.svg",
-    href: "/",
+    href: "/es",
   },
   {
     code: "en",
     label: "EN",
     name: "English",
     flag: "https://flagicons.lipis.dev/flags/4x3/gb.svg",
-    href: "/en",
+    href: "/",
   },
   {
     code: "pt",

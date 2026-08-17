@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import es from "../i18n/es";
+import en from "../i18n/en";
 import NavBar from "../components/Navbar.astro";
 import Hero from "../components/Hero.astro";
 import Services from "../components/Services.astro";
@@ -15,23 +15,23 @@ import aduanasLogo from "../assets/aduana-logo.webp";
 import segurosLogo from "../assets/seguros-logo.webp";
 ---
 
-<Layout lang="es" title={es.meta.title} description={es.meta.description}>
-  <NavBar content={es.nav} />
+<Layout lang="en" title={en.meta.title} description={en.meta.description}>
+  <NavBar content={en.nav} />
   <main class="bg-[#F7F9F9] min-h-screen">
-    <Hero content={es.hero} />
+    <Hero content={en.hero} />
 
-    <Services content={es.services} />
+    <Services content={en.services} />
 
-    <BuildTrust content={es.build_trust} />
+    <BuildTrust content={en} />
 
-    <About content={es.about} />
+    <About content={en.about} />
 
-    <Stats content={es.about.stats} />
+    <Stats content={en.about.stats} />
 
-    <Work content={es.process} />
+    <Work content={en.process} />
 
     <Marquee
-      content={es.marquee}
+      content={en.marquee}
       logos={[
         { src: aduanasLogo.src, alt: "Aduanas" },
         { src: segurosLogo.src, alt: "Seguros" },
@@ -42,7 +42,7 @@ import segurosLogo from "../assets/seguros-logo.webp";
       ]}
     />
 
-    <Contact content={es.contact} />
+    <Contact content={en.contact} />
   </main>
-  <Footer content={es.footer} />
+  <Footer content={en.footer} />
 </Layout>

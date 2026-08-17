@@ -9,6 +9,24 @@ interface Props {
 }
 
 const { lang, title, description } = Astro.props;
+
+const siteUrl = "https://blackstar-logistics.com";
+
+const currentPath = Astro.url.pathname;
+
+const canonicalURL = new URL(currentPath, siteUrl).toString();
+
+const languages = {
+  en: `${siteUrl}/`,
+  es: `${siteUrl}/es/`,
+  pt: `${siteUrl}/pt/`,
+};
+
+const ogLocale = {
+  en: "en_US",
+  es: "es_ES",
+  pt: "pt_BR",
+}[lang];
 ---
 
 <!doctype html>
@@ -20,16 +38,42 @@ const { lang, title, description } = Astro.props;
 
     <meta name="description" content={description} />
 
-    <link rel="icon" type="image/svg+xml" href="/favicon.png" />
-    <link rel="icon" href="/favicon.png" />
+    <meta name="robots" content="index, follow" />
 
-    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+
+    <!-- Canonical -->
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Alternate languages -->
+    <link rel="alternate" hreflang="en" href={languages.en} />
+    <link rel="alternate" hreflang="es" href={languages.es} />
+    <link rel="alternate" hreflang="pt" href={languages.pt} />
+    <link rel="alternate" hreflang="x-default" href={languages.en} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:image" content={`${siteUrl}/og-image.jpg`} />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${siteUrl}/og-image.jpg`} />
+
+    <!-- Theme -->
+    <meta name="theme-color" content="#F7F9F9" />
 
     <title>{title}</title>
   </head>
 
   <body>
     <slot />
+
     <LanguageSwitcher />
   </body>
 </html>
