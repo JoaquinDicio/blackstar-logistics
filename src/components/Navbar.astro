@@ -1,5 +1,5 @@
 ---
-import { Menu, X } from "lucide-astro";
+import { Menu, X, ChevronDown } from "lucide-astro";
 import logo from "../assets/logo.png";
 
 interface Props {
@@ -16,8 +16,40 @@ interface Props {
 
 const { content } = Astro.props;
 
-const isEnglish = Astro.url.pathname.startsWith("/en");
-const languageHref = isEnglish ? "/" : "/en";
+const pathname = Astro.url.pathname;
+
+const isEnglish = pathname.startsWith("/en");
+const isPortuguese = pathname.startsWith("/pt");
+
+const currentLanguage = isEnglish ? "en" : isPortuguese ? "pt" : "es";
+
+const languages = [
+  {
+    code: "es",
+    label: "ES",
+    name: "Español",
+    flag: "https://flagicons.lipis.dev/flags/4x3/ar.svg",
+    href: "/",
+  },
+  {
+    code: "en",
+    label: "EN",
+    name: "English",
+    flag: "https://flagicons.lipis.dev/flags/4x3/gb.svg",
+    href: "/en",
+  },
+  {
+    code: "pt",
+    label: "PT",
+    name: "Português",
+    flag: "https://flagicons.lipis.dev/flags/4x3/br.svg",
+    href: "/pt",
+  },
+];
+
+const currentLanguageData = languages.find(
+  (language) => language.code === currentLanguage,
+)!;
 ---
 
 <nav class="absolute top-0 left-0 z-100 w-full pt-5 md:pt-8">
@@ -26,7 +58,7 @@ const languageHref = isEnglish ? "/" : "/en";
   >
     <!-- Logo -->
     <a
-      href={isEnglish ? "/en" : "/"}
+      href={currentLanguageData.href}
       aria-label="Blackstar Logistics"
       class="shrink-0"
     >
@@ -54,18 +86,65 @@ const languageHref = isEnglish ? "/" : "/en";
       </a>
     </div>
 
-    <!-- Select language -->
-    <a
-      href={languageHref}
-      class="text-sm md:block hidden rounded-full overflow-hidden font-semibold whitespace-nowrap text-white"
-    >
-      <img class="w-7 h-7 object-cover" src={content.language} />
-    </a>
+    <!-- Desktop language selector -->
+    <div class="relative hidden lg:block">
+      <button
+        id="language-button"
+        type="button"
+        aria-expanded="false"
+        aria-controls="language-menu"
+        class="flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm font-semibold text-(--blue) backdrop-blur-sm transition-colors hover:bg-white"
+      >
+        <img
+          src={currentLanguageData.flag}
+          alt={currentLanguageData.name}
+          class="h-5 w-7 rounded-sm object-cover"
+        />
+
+        <span>{currentLanguageData.label}</span>
+
+        <ChevronDown
+          size={15}
+          strokeWidth={2}
+          class="language-chevron transition-transform duration-200"
+        />
+      </button>
+
+      <!-- Language options -->
+      <div
+        id="language-menu"
+        class="language-menu absolute right-0 top-full mt-2 min-w-36 rounded-xl bg-white p-1.5 shadow-lg"
+        aria-hidden="true"
+      >
+        {
+          languages.map((language) => (
+            <a
+              href={language.href}
+              class:list={[
+                "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-(--blue)",
+                "transition-colors hover:bg-gray-100",
+                {
+                  "bg-gray-100": language.code === currentLanguage,
+                },
+              ]}
+            >
+              <img
+                src={language.flag}
+                alt={language.name}
+                class="h-5 w-7 rounded-sm object-cover"
+              />
+
+              <span class="flex-1">{language.name}</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
 
     <!-- Desktop quote -->
     <a
       href="#contact"
-      class="hidden shrink-0 rounded-full bg-(--blue) px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-(--blue-dark) xl:block lg:px-10 lg:py-4"
+      class="hidden shrink-0 rounded-full bg-(--blue) px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-(--blue-dark) lg:px-10 lg:py-4 xl:block"
     >
       {content.quote}
     </a>
@@ -84,6 +163,7 @@ const languageHref = isEnglish ? "/" : "/en";
         strokeWidth={1.8}
         class="menu-icon transition-transform duration-300"
       />
+
       <X
         size={25}
         strokeWidth={1.8}
@@ -96,7 +176,7 @@ const languageHref = isEnglish ? "/" : "/en";
   <div
     id="mobile-menu"
     aria-hidden="true"
-    class="mobile-menu absolute left-2 right-2 top-full mt-3 rounded-2xl bg-white/95 p-6 shadow-lg backdrop-blur-sm md:hidden"
+    class="mobile-menu absolute top-full left-2 right-2 mt-3 rounded-2xl bg-white/95 p-6 shadow-lg backdrop-blur-sm md:hidden"
   >
     <div class="flex flex-col gap-5 text-(--blue)">
       <a href="#about" class="font-medium">
@@ -115,17 +195,48 @@ const languageHref = isEnglish ? "/" : "/en";
         {content.contact}
       </a>
 
-      <a
-        href={languageHref}
-        class="font-medium rounded-full flex items-center gap-3"
-      >
-        {content.language_switch}
-        <img
-          class="w-7 h-7 object-cover rounded-full overflow-hidden"
-          src={content.language}
-        />
-      </a>
+      <!-- Mobile language selector -->
+      <div class="border-t border-gray-200 pt-4">
+        <p
+          class="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-500"
+        >
+          {content.language_switch}
+        </p>
 
+        <div class="flex flex-col gap-2">
+          {
+            languages.map((language) => (
+              <a
+                href={language.href}
+                class:list={[
+                  "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium",
+                  "transition-colors",
+                  {
+                    "bg-gray-100 text-(--blue)":
+                      language.code === currentLanguage,
+                    "text-(--blue) hover:bg-gray-100":
+                      language.code !== currentLanguage,
+                  },
+                ]}
+              >
+                <img
+                  src={language.flag}
+                  alt={language.name}
+                  class="h-5 w-7 rounded-sm object-cover"
+                />
+
+                <span class="flex-1">{language.name}</span>
+
+                <span class="text-xs font-semibold text-gray-400">
+                  {language.label}
+                </span>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Mobile quote -->
       <a
         href="#contact"
         class="mt-1 w-full rounded-full bg-(--blue) px-5 py-3 text-center text-sm font-medium text-white transition-colors hover:bg-(--blue-dark)"
@@ -137,6 +248,24 @@ const languageHref = isEnglish ? "/" : "/en";
 </nav>
 
 <style>
+  .language-menu {
+    opacity: 0;
+    transform: translateY(-5px);
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease,
+      visibility 180ms ease;
+  }
+
+  .language-menu.is-open {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+    pointer-events: auto;
+  }
+
   .mobile-menu {
     opacity: 0;
     transform: translateY(-10px);
@@ -157,30 +286,76 @@ const languageHref = isEnglish ? "/" : "/en";
 </style>
 
 <script>
-  const button = document.querySelector<HTMLButtonElement>("#menu-button");
-  const menu = document.querySelector<HTMLElement>("#mobile-menu");
-  const menuIcon = button?.querySelector(".menu-icon");
-  const closeIcon = button?.querySelector(".close-icon");
+  const menuButton = document.querySelector<HTMLButtonElement>("#menu-button");
+  const mobileMenu = document.querySelector<HTMLElement>("#mobile-menu");
+  const menuIcon = menuButton?.querySelector(".menu-icon");
+  const closeIcon = menuButton?.querySelector(".close-icon");
 
-  if (button && menu) {
+  const languageButton =
+    document.querySelector<HTMLButtonElement>("#language-button");
+
+  const languageMenu = document.querySelector<HTMLElement>("#language-menu");
+
+  const languageChevron = languageButton?.querySelector(".language-chevron");
+
+  if (languageButton && languageMenu) {
+    const setLanguageState = (open: boolean) => {
+      languageMenu.classList.toggle("is-open", open);
+
+      languageButton.setAttribute("aria-expanded", String(open));
+
+      languageMenu.setAttribute("aria-hidden", String(!open));
+
+      languageChevron?.classList.toggle("rotate-180", open);
+    };
+
+    languageButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+
+      const isOpen = languageButton.getAttribute("aria-expanded") === "true";
+
+      setLanguageState(!isOpen);
+    });
+
+    document.addEventListener("click", () => {
+      setLanguageState(false);
+    });
+
+    languageMenu.addEventListener("click", (event) => {
+      event.stopPropagation();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        setLanguageState(false);
+      }
+    });
+  }
+
+  if (menuButton && mobileMenu) {
     const setMenuState = (open: boolean) => {
-      menu.classList.toggle("is-open", open);
+      mobileMenu.classList.toggle("is-open", open);
 
-      button.setAttribute("aria-expanded", String(open));
-      button.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
-      menu.setAttribute("aria-hidden", String(!open));
+      menuButton.setAttribute("aria-expanded", String(open));
+
+      menuButton.setAttribute(
+        "aria-label",
+        open ? "Cerrar menú" : "Abrir menú",
+      );
+
+      mobileMenu.setAttribute("aria-hidden", String(!open));
 
       menuIcon?.classList.toggle("hidden", open);
       closeIcon?.classList.toggle("hidden", !open);
     };
 
-    button.addEventListener("click", () => {
-      const isOpen = button.getAttribute("aria-expanded") === "true";
+    menuButton.addEventListener("click", () => {
+      const isOpen = menuButton.getAttribute("aria-expanded") === "true";
 
       setMenuState(!isOpen);
     });
 
-    menu.querySelectorAll("a").forEach((link) => {
+    mobileMenu.querySelectorAll("a").forEach((link) => {
       link.addEventListener("click", () => {
         setMenuState(false);
       });

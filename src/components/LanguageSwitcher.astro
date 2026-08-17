@@ -1,0 +1,164 @@
+---
+import { ChevronUp, Check } from "lucide-astro";
+
+const pathname = Astro.url.pathname;
+
+const isEnglish = pathname.startsWith("/en");
+const isPortuguese = pathname.startsWith("/pt");
+
+const currentLanguage = isEnglish ? "en" : isPortuguese ? "pt" : "es";
+
+const languages = [
+  {
+    code: "es",
+    label: "ES",
+    name: "Español",
+    flag: "https://flagicons.lipis.dev/flags/4x3/ar.svg",
+    href: "/",
+  },
+  {
+    code: "en",
+    label: "EN",
+    name: "English",
+    flag: "https://flagicons.lipis.dev/flags/4x3/gb.svg",
+    href: "/en",
+  },
+  {
+    code: "pt",
+    label: "PT",
+    name: "Português",
+    flag: "https://flagicons.lipis.dev/flags/4x3/br.svg",
+    href: "/pt",
+  },
+];
+
+const currentLanguageData = languages.find(
+  (language) => language.code === currentLanguage,
+)!;
+---
+
+<div id="language-switcher" class="fixed right-5 bottom-5 z-100 md:hidden">
+  <!-- Options -->
+  <div
+    id="language-options"
+    class="language-options absolute right-0 bottom-full mb-2 w-40 rounded-2xl bg-white p-2 shadow-xl"
+    aria-hidden="true"
+  >
+    {
+      languages.map((language) => (
+        <a
+          href={language.href}
+          class:list={[
+            "flex items-center gap-3 rounded-xl px-3 py-2.5",
+            "text-sm font-medium text-(--blue)",
+            "transition-colors hover:bg-gray-100",
+            {
+              "bg-gray-100": language.code === currentLanguage,
+            },
+          ]}
+        >
+          <img
+            src={language.flag}
+            alt={language.name}
+            class="h-5 w-7 rounded-sm object-cover"
+          />
+
+          <span class="flex-1">{language.name}</span>
+
+          {language.code === currentLanguage && (
+            <Check size={16} strokeWidth={2.5} />
+          )}
+        </a>
+      ))
+    }
+  </div>
+
+  <!-- Current language -->
+  <button
+    id="language-switcher-button"
+    type="button"
+    aria-expanded="false"
+    aria-controls="language-options"
+    class="flex items-center gap-2 rounded-full bg-white px-4 py-3 text-sm font-semibold text-(--blue) shadow-lg"
+  >
+    <img
+      src={currentLanguageData.flag}
+      alt={currentLanguageData.name}
+      class="h-5 w-7 rounded-sm object-cover"
+    />
+
+    <span>{currentLanguageData.label}</span>
+
+    <ChevronUp
+      size={16}
+      strokeWidth={2}
+      class="language-chevron transition-transform duration-200"
+    />
+  </button>
+</div>
+
+<style>
+  .language-options {
+    opacity: 0;
+    transform: translateY(8px);
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease,
+      visibility 180ms ease;
+  }
+
+  .language-options.is-open {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+    pointer-events: auto;
+  }
+</style>
+
+<script>
+  const switcher = document.querySelector<HTMLElement>("#language-switcher");
+
+  const button = document.querySelector<HTMLButtonElement>(
+    "#language-switcher-button",
+  );
+
+  const options = document.querySelector<HTMLElement>("#language-options");
+
+  const chevron = button?.querySelector(".language-chevron");
+
+  if (switcher && button && options) {
+    const setState = (open: boolean) => {
+      options.classList.toggle("is-open", open);
+
+      button.setAttribute("aria-expanded", String(open));
+
+      options.setAttribute("aria-hidden", String(!open));
+
+      chevron?.classList.toggle("rotate-180", open);
+    };
+
+    button.addEventListener("click", (event) => {
+      event.stopPropagation();
+
+      const isOpen = button.getAttribute("aria-expanded") === "true";
+
+      setState(!isOpen);
+    });
+
+    document.addEventListener("click", () => {
+      setState(false);
+    });
+
+    options.addEventListener("click", (event) => {
+      event.stopPropagation();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        setState(false);
+      }
+    });
+  }
+</script>
