@@ -57,13 +57,42 @@ const { content } = Astro.props;
         {content.description}
       </p>
 
-      <form class="mt-6 space-y-3">
+      <form
+        action="https://api.web3forms.com/submit"
+        method="POST"
+        class="mt-6 space-y-3"
+      >
+        <input
+          type="hidden"
+          name="access_key"
+          value="16ea0a40-cab5-4be8-833e-f1c083de274c"
+        />
+
+        <input
+          type="hidden"
+          name="subject"
+          value="New contact request - BlackStar Logistics"
+        />
+
+        <input
+          type="hidden"
+          name="from_name"
+          value="BlackStar Logistics Website"
+        />
+
+        <input
+          type="hidden"
+          name="redirect"
+          value="https://blackstar-logistics.com/contact"
+        />
+
         <!-- Name + Last name -->
         <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <input
             type="text"
             name="name"
             placeholder={content.form.name}
+            required
             class="h-11 rounded-md bg-white px-4 text-sm text-gray-800 outline-none placeholder:text-gray-400 focus:ring-2 focus:ring-(--blue)"
           />
 
@@ -71,6 +100,7 @@ const { content } = Astro.props;
             type="text"
             name="lastName"
             placeholder={content.form.lastName}
+            required
             class="h-11 rounded-md bg-white px-4 text-sm text-gray-800 outline-none placeholder:text-gray-400 focus:ring-2 focus:ring-(--blue)"
           />
         </div>
@@ -80,6 +110,7 @@ const { content } = Astro.props;
           type="email"
           name="email"
           placeholder={content.form.email}
+          required
           class="h-11 w-full rounded-md bg-white px-4 text-sm text-gray-800 outline-none placeholder:text-gray-400 focus:ring-2 focus:ring-(--blue)"
         />
 
@@ -88,13 +119,14 @@ const { content } = Astro.props;
           name="message"
           rows="5"
           placeholder={content.form.message}
+          required
           class="w-full resize-none rounded-md bg-white px-4 py-3 text-sm text-gray-800 outline-none placeholder:text-gray-400 focus:ring-2 focus:ring-(--blue)"
         ></textarea>
 
         <!-- Submit -->
         <button
           type="submit"
-          class="cursor-pointer h-12 w-full rounded-md bg-(--blue) text-sm font-medium text-white transition-colors hover:bg-(--blue-dark)"
+          class="h-12 w-full cursor-pointer rounded-md bg-(--blue) text-sm font-medium text-white transition-colors hover:bg-(--blue-dark)"
         >
           {content.form.submit}
         </button>
